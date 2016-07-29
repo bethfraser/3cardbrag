@@ -8,7 +8,7 @@ public class WinChecker {
   private Player player1;
   private Player player2;
   private ArrayList<Player> winners = new ArrayList<Player>();
-  private String winType = "High Card";
+  private String winType = "None";
 
   public void setPlayers(Player player1, Player player2){
     this.player1 = player1;
@@ -85,6 +85,7 @@ public class WinChecker {
       }
     }
 
+    this.winType = "High Card";
     return highestCardAll(player1, player2);
   }
 
