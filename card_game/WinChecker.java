@@ -8,6 +8,7 @@ public class WinChecker {
   private Player player1;
   private Player player2;
   private ArrayList<Player> winners = new ArrayList<Player>();
+  private String winType = "High Card";
 
   public void setPlayers(Player player1, Player player2){
     this.player1 = player1;
@@ -15,6 +16,7 @@ public class WinChecker {
   }
 
   public Player checkForWin(){
+    winners.clear();
 
     checkForPrial(player1);
     checkForPrial(player2);
@@ -40,6 +42,7 @@ public class WinChecker {
         return winners.get(0);
       }
       else {
+
         // If both players have a running flush, the player with the highest run (shown by the highest card of the run) wins. If both runs are the same, player who refused to bet higher wins (if no betting, just first player by random luck).
         return highestCard(player1, player2);
       }
@@ -91,6 +94,7 @@ public class WinChecker {
 
     if (hand[0].getNumber() == hand[1].getNumber() && hand[1].getNumber() == hand[2].getNumber()){
       winners.add(player);
+      this.winType = "Prial";
       return true;
     }
     return false;
@@ -101,6 +105,7 @@ public class WinChecker {
 
     if(hand[0].getSuit() == hand[1].getSuit() && hand[1].getSuit() == hand[2].getSuit()){
       winners.add(player);
+      this.winType = "Flush";      
       return true;
     }
     return false;
@@ -113,6 +118,8 @@ public class WinChecker {
 
     if (cardNumbers.contains(max - 1)){
       if (cardNumbers.contains(max - 2)){
+        winners.add(player);
+        this.winType = "Run";
         return true;
       }
     }
@@ -120,7 +127,16 @@ public class WinChecker {
   }
 
   public boolean checkForRunningFlush(Player player){
-    if(checkForFlush(player) && checkForRun(player)){
+    boolean run = checkForRun(player);
+    winners.remove(player);
+    boolean flush = checkForFlush(player);
+    winners.remove(player);
+
+    // change of winType needs to happen regardless of if both conditions are met, in case other player has one and it's been overwritten by checks above. 
+    this.winType = "Running Flush";
+
+    if(run && flush){
+      winners.add(player);
       return true;
     }
     return false;
@@ -179,6 +195,7 @@ public class WinChecker {
 
     if (hand[0].getNumber() == hand[1].getNumber() || hand[1].getNumber() == hand[2].getNumber() || hand[0].getNumber() == hand[2].getNumber()){
       winners.add(player);
+      this.winType = "Pair";     
       return true;
     }
     return false;
@@ -221,6 +238,10 @@ public class WinChecker {
 
   public String printHands(){
     return player1.printHand() + " -- " + player2.printHand();
+  }
+
+  public String getWinType(){
+    return winType;
   }
 
 }

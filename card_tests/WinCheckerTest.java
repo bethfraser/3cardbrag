@@ -146,6 +146,7 @@ public class WinCheckerTest {
   @Test
   public void canCheckWinner_OnePrial(){
     assertEquals(player2, winChecker.checkForWin());
+    assertEquals("Prial", winChecker.getWinType());
   }
 
   @Test
@@ -157,9 +158,10 @@ public class WinCheckerTest {
 
   @Test
   public void canCheckWinner_OneRunningFlush(){
-    player2.setHand(card4, card7, card8);
+    player2.setHand(card4, card7, card2);
     winChecker.setPlayers(player1, player2);
     assertEquals(player1, winChecker.checkForWin());
+    assertEquals("Running Flush", winChecker.getWinType());
   }
 
   @Test

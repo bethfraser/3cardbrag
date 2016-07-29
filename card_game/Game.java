@@ -8,6 +8,7 @@ public class Game {
   private ArrayList<Player> players = new ArrayList<Player>();
   private static ArrayList<Card> deck = new ArrayList<Card>();
   private WinChecker winChecker = new WinChecker();
+  private String winType = "High Card";
 
   public void buildDeck(){
     for (int i=1; i<14; i++) {
@@ -50,6 +51,17 @@ public class Game {
       deck.remove(0);
       deck.remove(0);
     } 
+  }
+
+  public Player findWinner(Player player1, Player player2){
+    winChecker.setPlayers(player1, player2);
+    Player winner = winChecker.checkForWin();
+    this.winType = winChecker.getWinType();
+    return winner;
+  }
+
+  public String getWinType(){
+    return this.winType;
   }
 
 
