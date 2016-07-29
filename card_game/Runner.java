@@ -3,7 +3,7 @@ import card_game.*;
 public class Runner {
 
   public static void main(String[] args){
-    System.out.println("Let's play Three Card Brag!")
+    System.out.println("Let's play Three Card Brag!");
     Game game = new Game();
     Player player1 = new Player("Beth");
     Player player2 = new Player("Sandy");
